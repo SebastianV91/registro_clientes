@@ -52,26 +52,16 @@ public class ClienteController {
 		
 		try {
 			
-			if(num_identificacion != null && num_identificacion.equals(cliente.getNum_identificacion())) {
-				
-				response.put("mensaje", "Este numero de identificacion ya existe.");
-				response.put("cliente", clienteNuevo);
-				
-			}else {
-			
 				clienteNuevo = clienteService.saveCliente(cliente);
 				
-				response.put("mensaje", "Cliente creado con exito");
-				response.put("cliente", clienteNuevo);
-			
-			}
-			
 		} catch (DataAccessException e) {
 			response.put("mensaje", "Error al insertar el cliente en la base de datos");
 			response.put("error", e.getMessage().concat(" ").concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
+		response.put("mensaje", "Cliente creado con exito");
+		response.put("cliente", clienteNuevo);
 		
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 		
