@@ -23,6 +23,25 @@ public class ClienteController {
 
 	@Autowired
 	private IClienteService clienteService;
+	
+	private Cliente cliente = new Cliente();
+	private Long num_identificacion;
+	
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
+
+	public Long getNum_identificacion() {
+		return num_identificacion;
+	}
+
+	public void setNum_identificacion(Long num_identificacion) {
+		this.num_identificacion = num_identificacion;
+	}
 
 	@PostMapping("/save")
 	public ResponseEntity<?> create(@RequestBody Cliente cliente) {
@@ -33,7 +52,19 @@ public class ClienteController {
 		
 		try {
 			
-			clienteNuevo = clienteService.saveCliente(cliente);
+			if(num_identificacion != null && num_identificacion.equals(cliente.getNum_identificacion())) {
+				
+				response.put("mensaje", "Este numero de identificacion ya existe.");
+				response.put("cliente", clienteNuevo);
+				
+			}else {
+			
+				clienteNuevo = clienteService.saveCliente(cliente);
+				
+				response.put("mensaje", "Cliente creado con exito");
+				response.put("cliente", clienteNuevo);
+			
+			}
 			
 		} catch (DataAccessException e) {
 			response.put("mensaje", "Error al insertar el cliente en la base de datos");
@@ -41,10 +72,8 @@ public class ClienteController {
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
-		response.put("mensaje", "Cliente creado con exito");
-		response.put("cliente", clienteNuevo);
 		
-		return new ResponseEntity<Cliente>(cliente, HttpStatus.CREATED);
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 		
 	}
 	
