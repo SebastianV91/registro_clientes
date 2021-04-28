@@ -24,25 +24,6 @@ public class ClienteController {
 	@Autowired
 	private IClienteService clienteService;
 	
-	private Cliente cliente = new Cliente();
-	private Long num_identificacion;
-	
-	public Cliente getCliente() {
-		return cliente;
-	}
-
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
-	}
-
-	public Long getNum_identificacion() {
-		return num_identificacion;
-	}
-
-	public void setNum_identificacion(Long num_identificacion) {
-		this.num_identificacion = num_identificacion;
-	}
-
 	@PostMapping("/save")
 	public ResponseEntity<?> create(@RequestBody Cliente cliente) {
 		
