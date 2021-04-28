@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.api.clientes.dao.IClienteDao;
 import com.api.clientes.model.Cliente;
 import com.api.clientes.services.IClienteService;
 
@@ -32,7 +33,7 @@ public class ClienteController {
 		Map<String, Object> response = new HashMap<>();
 		
 		try {
-			
+				
 				clienteNuevo = clienteService.saveCliente(cliente);
 				
 		} catch (DataAccessException e) {
